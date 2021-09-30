@@ -13,7 +13,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = MedicalRecordResource.MEDICALRECORD)
 public class MedicalRecordResource {
-    public static final String MEDICALRECORD = "/medicar-record";
+    public static final String MEDICALRECORD = "/medical-record";
     public static final String ID = "/{id}";
     private MedicalRecordController medicalRecordController;
 
