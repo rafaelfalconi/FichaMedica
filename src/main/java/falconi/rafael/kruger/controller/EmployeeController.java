@@ -1,11 +1,15 @@
 package falconi.rafael.kruger.controller;
 
+import com.google.common.hash.Hashing;
 import falconi.rafael.kruger.dtos.EmployeeDto;
 import falconi.rafael.kruger.entities.Employee;
 import falconi.rafael.kruger.entities.MedicalRecord;
 import falconi.rafael.kruger.repositories.EmployeeRepository;
+import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,6 +34,8 @@ public class EmployeeController {
         employee.setEmail(employeeDto.getEmail());
         employee.setName(employee.getName());
         employee.setLastName(employeeDto.getLastName());
+        employee.setUsername(employeeDto.getCi());
+        employee.setPassword(this.generateRandomPassword());
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setEmployee(employee);
         employee.setMedicalRecord(medicalRecord);
@@ -70,5 +76,12 @@ public class EmployeeController {
 
         }
         return employeeDtoList;
+    }
+
+    public String generateRandomPassword() {
+        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(33, 45).build();
+        String pwd = pwdGenerator.generate(10);
+        return Hashing.sha256().hashString(pwd, StandardCharsets.UTF_8).toString();
+
     }
 }
