@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,7 +21,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(EmployeeResource.class)
-@TestPropertySource(locations = "classpath:test.properties")
 public class EmployeeResourceTest {
 
     @MockBean
@@ -58,14 +56,23 @@ public class EmployeeResourceTest {
     }
 
     @Test
-    public void getEmployeeByVaccinated() {
+    public void getEmployeeByVaccinated() throws Exception {
+        RequestBuilder requestBuilder= MockMvcRequestBuilders.get("/employee/vaccinated/true");
+        MvcResult result=mockMvc.perform(requestBuilder).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+        System.out.println("--->" + result.getResponse());
     }
 
     @Test
-    public void getEmployeeByVaccine() {
+    public void getEmployeeByVaccine() throws Exception {
+        RequestBuilder requestBuilder= MockMvcRequestBuilders.get("/employee/vaccine/Sputnik");
+        MvcResult result=mockMvc.perform(requestBuilder).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+        System.out.println("--->" + result.getResponse());
     }
 
     @Test
-    public void getEmployeeByDate() {
+    public void getEmployeeByDate() throws Exception {
+        RequestBuilder requestBuilder= MockMvcRequestBuilders.get("/employee/vaccine/Sputnik");
+        MvcResult result=mockMvc.perform(requestBuilder).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+        System.out.println("--->" + result.getResponse());
     }
 }
