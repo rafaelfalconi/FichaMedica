@@ -1,7 +1,7 @@
 package falconi.rafael.kruger.resources;
 
 import falconi.rafael.kruger.controller.EmployeeController;
-import falconi.rafael.kruger.entities.Employee;
+import falconi.rafael.kruger.dtos.EmployeeDto;
 import falconi.rafael.kruger.entities.Vaccine;
 import falconi.rafael.kruger.resources.exception.DateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,13 @@ public class EmployeeResource {
     public static final String VACCINE = "/vaccine/{vaccine}";
     public static final String DATE = "/startDate";
 
-    private EmployeeController employeeController;
+    private final EmployeeController employeeController;
 
     @Autowired
     public EmployeeResource(EmployeeController employeeController) {
         this.employeeController = employeeController;
     }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,24 +47,24 @@ public class EmployeeResource {
 
 
     @PostMapping
-    public ResponseEntity<Object> registerEmployee(@Valid @RequestBody Employee employee) {
-        this.employeeController.registedEmployee(employee);
+    public ResponseEntity<Object> registerEmployee(@Valid @RequestBody EmployeeDto employee) {
+        this.employeeController.registerEmployee(employee);
         return new ResponseEntity<>("\"Empleado registrado\"", HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value = EmployeeResource.VACCINATED)
-    public List<Employee> getEmployeeByVaccinated(@PathVariable boolean vaccinated) {
+    public List<EmployeeDto> getEmployeeByVaccinated(@PathVariable boolean vaccinated) {
         return this.employeeController.getEmployeeByVaccinated(vaccinated);
     }
 
     @GetMapping(value = EmployeeResource.VACCINE)
-    public List<Employee> getEmployeeByVaccine(@PathVariable String vaccine) {
+    public List<EmployeeDto> getEmployeeByVaccine(@PathVariable String vaccine) {
         Vaccine vaccine1 = Vaccine.valueOf(vaccine);
         return this.employeeController.getEmployeeByVaccine(vaccine1);
     }
 
     @GetMapping(value = EmployeeResource.DATE)
-    public List<Employee> getEmployeeByDate(@RequestParam String dateStart, @RequestParam String dateEnd) throws DateException {
+    public List<EmployeeDto> getEmployeeByDate(@RequestParam String dateStart, @RequestParam String dateEnd) throws DateException {
         try {
              return this.employeeController.getEmployeeByDate(dateStart, dateEnd);
              //return dateStart+" "+dateStart;

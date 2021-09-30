@@ -11,5 +11,5 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, St
 
     Optional<MedicalRecord> findMedicalRecordByEmployee_Id(String id);
 
-    
+
 }
